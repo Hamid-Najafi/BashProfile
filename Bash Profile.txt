@@ -53,10 +53,6 @@ exit() {
         * ) printf "\n" ;;
     esac
 }
-function saina_server()
-{
-ssh root1@178.32.80.49
-}
 function raspberry()
 {
 ssh pi@raspberrypi.local
