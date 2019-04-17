@@ -1,0 +1,326 @@
+export PATH=$PATH:.
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export CLICOLOR=1
+export LSCOLORS=Exfxcxdxbxegedabagacad
+#For Home
+export PS1="\\[$(tput setaf 1)\\]\\u \[\033[m\]\w $\\[$(tput sgr0)\\] "
+#For Servers
+#export PS1="\\[$(tput setaf 1)\\]\\u@\\h:\[\033[m\]\w\\$\\[$(tput sgr0)\\] "
+# Default
+#export PS1=$DEFAULT
+
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+
+check=$(type sudo)
+result="sudo is /usr/bin/sudo"
+if [ "$check" != "$result" ]
+then
+    echo "Sudo Warning"
+    type sudo
+    read -p "You may hacked !"
+fi
+# Bash 
+alias ls='ls -GFh'
+alias lsf='ls -laghFG'
+alias cd..='cd ..'
+alias cd~='cd ~'
+alias reload='source ~/.bash_profile'
+alias r=reload
+alias bash_profile='touch ~/.bash_profile && code ~/.bash_profile'
+alias bp=bash_profile
+alias export_bashprofile='cp ~/.bash_profile  /Users/hamid/Documents/Scripts/Config\ files/Bash\ Profile/Bash\ Profile.txt'
+alias serial_port='ls /dev/tty.*'
+alias sp=serial_port
+alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+# Commom Mac programsc
+alias xcode='open -a xcode'
+alias text='open -a TextEdit'
+alias pre='open -a Preview'
+alias pwdfailed='syslog -k Time ge -24h | egrep -e "sshd|ftpd|afp|vnc"'
+alias restart_wifi='networksetup -setairportpower en0 off;networksetup -setairportpower en0 on'
+
+# My Additional Scripts
+alias dns_reset='sudo bash /Users/hamid/Documents/Scripts/DNS\ Reset.sh'
+alias TashimBeNesbeh='cd /Users/hamid/Documents/Scripts/Programs/TashimBeNesbeh;./TashimBeNesbeh'
+exit() {
+    read -t5 -n1 -p "Do you really wish to exit? [Y/N] " should_exit || should_exit=y
+    case $should_exit in
+        [Yy] ) builtin exit $1 ;;
+        * ) printf "\n" ;;
+    esac
+}
+function saina_server()
+{
+ssh root1@178.32.80.49
+}
+function raspberry()
+{
+ssh pi@raspberrypi.local
+}
+function download_url_recursive()
+{
+read -p "Enter Download URL:" Downloadurl
+read -p "Enter Save location:" DownloadToDir
+wget -r -l5 -P $DownloadToDir $Downloadurl
+}
+alias software='cd /Users/hamid/Documents/Programming\ \&\ Software'
+alias hardware='cd /Users/hamid/Documents/Hardware\ \&\ Electronics'
+
+# Mifare Card Scripts
+alias nfc_config='touch /usr/local/Cellar/libnfc/1.7.1/etc/nfc/devices.d/pn532_via_uart2usb.conf && code /usr/local/Cellar/libnfc/1.7.1/etc/nfc/devices.d/pn532_via_uart2usb.conf'
+alias mifare_read='bash /Users/hamid/Documents/Scripts/Mifare\ Read.sh'
+alias mifare_clone='bash /Users/hamid/Documents/Scripts/Mifare\ Clone.sh'
+
+# Ferdowsi Hotspot User
+#alias fum_hotspot_logout='bash /Users/hamid/Documents/Scripts/University/Logout.command'
+#alias fum_hotspot_login_hamid='bash /Users/hamid/Documents/Scripts/University/HamidLogin.command'
+alias fum_hotspot_logout='curl -i -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3"-X GET hotspot.um.ac.ir//logout'
+alias fum_hotspot_login_hamid='curl -H "Content-Type: application/x-www-form-urlencoded" --data "password=c4c696ae0e63a98932e25c6f64bde5a8&username=9412101168" hotspot.um.ac.ir/login'
+alias hhamid=fum_hotspot_login_hamid
+alias hlogout=fum_hotspot_logout
+
+# Visual Studio Code
+alias vscode='code'
+alias export_vscode_extn='code --list-extensions | xargs -L 1 echo code --install-extension >  /Users/hamid/Documents/Scripts/Config\ files/VSCode\ Extentions/VSCode\ Extentions.txt '
+export VSCode=/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
+
+# Grep
+alias grep='grep -n'
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;35;40'
+
+# Git
+git config --global color.ui true
+git config --global format.pretty oneline
+git config --global core.autocrl input
+git config --global core.fileMode true
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias push='git pull origin master && git push origin master'
+alias pull='git pull origin master'
+alias clone='git clone $1'
+
+# GCC & GDB
+#export GCCv8_1=/usr/local/gcc-8.1/bin
+alias gdb="sudo gdb"
+
+#Mbed
+function mbed_update()
+{
+    pip install --upgrade mbed-cli
+}
+function mbed_run()
+{
+    mbed compile --target K64F --toolchain GCC_ARM --flash
+}
+# STM32
+function st_gdb(){
+STUtilPort="$@"
+cd build
+[[ -z "$STUtilPort" ]] && arm-none-eabi-gdb -ex "tar extended-remote 127.0.0.1:4242" || arm-none-eabi-gdb -ex "tar extended-remote 127.0.0.1:$STUtilPort"
+}
+
+alias st-bmp='arm-none-eabi-gdb -ex "tar extended-remote /dev/cu.usbmodemC3BFB8DB"'
+
+function st_write(){
+FirmwareFile="$@"
+[[ -z "$FirmwareFile" ]] && st-flash write firmware.bin 0x08000000 || st-flash write $FirmwareFile 0x08000000
+}
+
+function st_run(){
+make
+if [ $? -eq 0 ]
+    then
+        echo "Compile Done."
+        for foo in $(find . -type f -name "*.bin" )
+            do
+                st_write $foo
+            done
+    else
+        echo "Compile Error!" >&2
+fi
+}
+function st-erase(){
+    st-flash erase
+}
+
+# Phyton
+alias python=python3
+alias pip=pip3
+alias update_pip='sudo pip install -U $(pip freeze | cut -d '=' -f 1)'
+
+# Java
+#export JAVA_HOME=$(/usr/libexec/java_home)
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home
+#export JRE_HOME=$JAVA_HOME
+
+# Go
+#export GOPATH=$HOME/go-workspace # don't forget to change your path correctly!
+#export GOROOT=/usr/local/opt/go/libexec/bin
+
+# Ruby Version Manager
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# SWI-Prolog
+#export SWI_Prolog=/Applications/SWI-Prolog.app/Contents/MacOS
+
+# MySQL
+export MYSQL_HOME=/usr/local/mysql
+#export MYSQL_CLIENT=/usr/local/opt/mysql-client/bin
+alias start_mysql='sudo $MYSQL_HOME/bin/mysqld_safe &'
+alias stop_mysql='sudo $MYSQL_HOME/bin/mysqladmin shutdown'
+
+# Homebrew
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+alias installBrew='ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew doctor'
+
+# NFC
+export libnfc=/usr/local/Cellar/libnfc/1.7.1/bin
+export libfreefare=/usr/local/Cellar/libfreefare/0.4.0_1/bin
+
+# PlatformIO (Installed with Brew and located in cellar)
+#export platformio=~/.platformio/penv/bin
+
+# Espressif
+# ESP-IDF
+alias mm='make menuconfig'
+export esp32=/Users/hamid/esp/xtensa-esp32-elf/bin
+export get_esp32=$esp32
+export IDF_PATH=~/esp/esp-idf 
+
+function esp_write(){
+FirmwareFile="$@"
+[[ -z "$FirmwareFile" ]] && esptool.py -p /dev/tty.SLAB_USBtoUART write_flash -fm qio 0x0000 firmware.bin  || esptool.py -p /dev/tty.SLAB_USBtoUART write_flash -fm qio 0x0000 $FirmwareFile
+}
+
+# function esp_run(){
+# if [ $? -eq 0 ];
+#     then
+#         echo "Writing Done."
+#         for foo in $(find . -type f -name "*.bin" )
+#             do
+#                 esp_write $foo
+#             done
+# elif [ $? -eq 1 ]
+#     then
+#         echo "Write Error!" >&2
+# fi
+# }
+
+function esp_init_arduino()
+{
+mkdir -p components && \
+cd components && \
+cp -r ~/esp/arduino-esp32 . && \
+cd .. && \
+make menuconfig
+}
+function esp_update()
+{
+# Toolchain is here 
+# https://docs.espressif.com/projects/esp-idf/en/latest/get-started/macos-setup.html
+# can find installed Toolchain version in make command
+# IDF_PATH in 1(project.mk Of esp-mdf) & 2(Makefile Of esp-iot-solution) has been changed.
+currentDir=$PWD && \
+cd ~/esp && \
+cd arduino-esp32 && \
+echo "========================================================"
+echo "=============== Updating Arduino ESP32 =================" && \
+echo "========================================================" && \
+git pull origin master && \
+git submodule update --init --recursive && \
+cd .. && \
+cd esp-idf && \
+echo "========================================================" && \
+echo "================== Updating ESP-IDF ====================" && \
+echo "========================================================" && \
+git pull origin master && \
+git submodule update && \
+echo "========================================================" && \
+echo "================== Updating ESPTool ====================" && \
+echo "========================================================" && \
+pip install esptool --upgrade && \
+cd .. && \
+cd esp-mdf && \
+echo "========================================================" && \
+echo "================== Updating ESP-MDF ====================" && \
+echo "========================================================" && \
+git pull origin master && \
+git submodule update && \
+cd .. && \
+echo "========================================================" && \
+echo "============= Updating ESP-IOT-solution ================" && \
+echo "========================================================" && \
+cd esp-iot-solution && \
+git pull origin master && \
+git submodule update && \
+echo "========================================================" && \
+echo "======================== Done ==========================" && \
+echo "========================================================" && \
+cd $currentDir
+}
+# ESP-MDF
+export MDF_PATH=~/esp/esp-mdf
+
+# ESP-IOT
+export IOT_SOLUTION_PATH=~/esp/esp-iot-solution
+
+# ESP8266 RTOS
+export esp8266=~/esp/8266/xtensa-lx106-elf/bin
+export get_esp8266=$esp8266
+#export IDF_PATH=~/esp/8266/ESP8266_RTOS_SDK
+
+# ESP8266 NONOS
+#export SDK_PATH=~/esp/8266/ESP8266_RTOS_SDK
+#export BIN_PATH=~/esp/8266/ESP8266_RTOS_SDK/bin
+
+# Fastlane
+#export Fastlane=$HOME/.fastlane/bin
+
+# Binary Files Locations (Order is important)
+# Already exists in etc/path
+export Binary=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Metasploit
+export Metasploit=/opt/metasploit-framework/bin
+
+# MacPorts
+#export MacPorts=/opt/local/bin:/opt/local/sbin
+
+# Android
+#export ANDROID_SDK=/Users/hamid/Library/Developer/Xamarin/android-sdk-macosx
+#export ANDROID_NDK=/Users/hamid/Library/Developer/Xamarin/android-ndk
+#export ANDROID_ROOT=$ANDROID_SDK
+#export ANDROID_HOME=$ANDROID_SDK
+#export NDK_ROOT=$ANDROID_NDK
+
+# PATH
+export PATH=$PATH:$Binary:$MyBinaries
+#export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$platformio
+#export PATH=$PATH:$GOPATH:$GOROOT:$SWI_Prolog:$MYSQL_CLIENT
+export PATH=$PATH:$libnfc:$libfreefare
+export PATH=$PATH:$esp32:$esp8266:$IDF_PATH:$MDF_PATH:$IOT_SOLUTION_PATH
+export PATH=$PATH:$VSCode:$Metasploit
+
+_fab_completion() {
+    COMPREPLY=()
+    
+    # Fab in the path?
+    /usr/bin/which -s fab || return 0
+    
+    # Fabfile in this folder?
+    [[ -e fabfile.py ]] || return 0
+    
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    
+    tasks=$(fab --shortlist)
+    COMPREPLY=( $(compgen -W "${tasks}" -- ${cur}) )
+}
+complete -F _fab_completion fab
+
