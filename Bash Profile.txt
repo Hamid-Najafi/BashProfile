@@ -30,7 +30,7 @@ alias reload='source ~/.bash_profile'
 alias r=reload
 alias bash_profile='touch ~/.bash_profile && code ~/.bash_profile'
 alias bp=bash_profile
-alias export_bashprofile='cp ~/.bash_profile  /Users/hamid/Documents/Scripts/Config\ files/Bash\ Profile/Bash\ Profile.txt'
+alias export_bashprofile='cp ~/.bash_profile  /Users/hamid/Documents/Scripts/Config\ files/Bash\ Profile/Bash\ Profile.txt && echo Export Done'
 alias serial_port='ls /dev/tty.*'
 alias sp=serial_port
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
@@ -81,7 +81,7 @@ alias hlogout=fum_hotspot_logout
 
 # Visual Studio Code
 alias vscode='code'
-alias export_vscode_extn='code --list-extensions | xargs -L 1 echo code --install-extension >  /Users/hamid/Documents/Scripts/Config\ files/VSCode\ Extentions/VSCode\ Extentions.txt '
+alias export_vscode_extn='code --list-extensions | xargs -L 1 echo code --install-extension >  /Users/hamid/Documents/Scripts/Config\ files/VSCode\ Extentions/VSCode\ Extentions.txt && echo Export Done'
 export VSCode=/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
 # Grep
@@ -175,6 +175,7 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 alias installBrew='ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew doctor'
+alias export_brewList='brew tap |  xargs -L 1 echo brew tap > /Users/hamid/Documents/Scripts/Config\ files/Brew\ List/Brew\ List.txt  && brew list | xargs -L 1 echo brew install >> /Users/hamid/Documents/Scripts/Config\ files/Brew\ List/Brew\ List.txt && echo Export Done'
 
 # NFC
 export libnfc=/usr/local/Cellar/libnfc/1.7.1/bin
