@@ -64,12 +64,13 @@ wget -r -l5 -P $DownloadToDir $Downloadurl
 }
 
 # Locations 
-scriptsLocation="/Users/"$(whoami)"/Documents/Scripts"
-projectsLocation="/Users/"$(whoami)"/Documents/Projects"
-brewListLocaion="$scriptsLocation/Config files/Brew List/Brew List.command"
-bashprofileLocation="$scriptsLocation/Config files/Bash/Bash Profile.txt"
-zshrcLocation="$scriptsLocation/Config files/Bash/ZSHRC.txt"
-VSCodeExtentionsLocaion="$scriptsLocation/Config files/VSCode Extentions/VSCode Extentions.command"
+appLocation="/Users/"$(whoami)"/Dev/Apps"
+configLocation="/Users/"$(whoami)"/Dev/Configs"
+projectsLocation="/Users/"$(whoami)"/Dev"
+brewListLocaion="$configLocation/Brew List/Brew List.command"
+bashprofileLocation="$configLocation/Bash/Bash Profile.txt"
+zshrcLocation="$configLocation/Bash/ZSHRC.txt"
+VSCodeExtentionsLocaion="$configLocation/VSCode Extentions/VSCode Extentions.command"
 
 # Custom Directories
 alias software='cd $projectsLocation/Software'
@@ -78,8 +79,8 @@ alias msfmodule='cd /opt/metasploit-framework/embedded/framework/modules'
 
 # Mifare Card Scripts
 alias nfc_config='touch /usr/local/Cellar/libnfc/1.7.1/etc/nfc/devices.d/pn532_via_uart2usb.conf && code /usr/local/Cellar/libnfc/1.7.1/etc/nfc/devices.d/pn532_via_uart2usb.conf'
-alias mifare_read='bash $scriptsLocation/Mifare\ Read.sh'
-alias mifare_clone='bash $scriptsLocation/Mifare\ Clone.sh'
+alias mifare_read='bash $configLocation/Mifare\ Read.sh'
+alias mifare_clone='bash $configLocation/Mifare\ Clone.sh'
 
 # Ferdowsi Hotspot User
 #alias fum_hotspot_logout='bash /Users/hamid/Documents/Scripts/University/Logout.command'
@@ -176,9 +177,9 @@ function st-erase(){
 # ========================================
 # My Custom Scripts and bin
 # Download document from wenku.baidu.com
-export wkget=$scriptsLocation/Programs/wkget/tools
+export wkget=$appLocation/wkget/tools
 export PATH=$PATH:$wkget
-alias TashimBeNesbeh='cd "${scriptsLocation}"/Programs/TashimBeNesbeh;./TashimBeNesbeh'
+alias TashimBeNesbeh='cd "${appLocation}"/TashimBeNesbeh;./TashimBeNesbeh'
 # ========================================
 
 # Phyton
