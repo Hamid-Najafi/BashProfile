@@ -80,7 +80,6 @@ source $ZSH/oh-my-zsh.sh
 source ~/.bash_profile
 # Redifine reload alias
 alias reload='source ~/.bash_profile; source $ZSH/oh-my-zsh.sh'
-alias r=reload
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
