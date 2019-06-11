@@ -77,8 +77,10 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-source ~/.bash_profile
 alias zshrc='touch ~/.zshrc && code ~/.zshrc'
+source ~/.bash_profile
+bashConfig="/Users/"$(whoami)"/Dev/Configs/Bash"
+source $bashConfig/Bash-Profile.sh
 # Redifine reload alias
 alias reload='source ~/.bash_profile; source ~/.zshrc'
 
