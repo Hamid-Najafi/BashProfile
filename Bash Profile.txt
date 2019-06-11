@@ -83,9 +83,9 @@ alias mifare_read='bash $configLocation/Mifare\ Read.sh'
 alias mifare_clone='bash $configLocation/Mifare\ Clone.sh'
 
 # Ferdowsi Hotspot User
-alias fum_hotspot_logout='curl -G https://hotspot.um.ac.ir/logout'
-alias fum_hotspot_login_hamid='curl -d "password=&username=9412101168" -X POST https://hotspot.um.ac.ir/login'
-alias fum_hotspot_login_shahla='curl -d "password=&username=9412101168" -X POST https://hotspot.um.ac.ir/login'
+alias fum_hotspot_logout='curl -G https://hotspot.um.ac.ir/logout > /dev/null'
+alias fum_hotspot_login_hamid='curl -d "password=&username=9412101168" -X POST https://hotspot.um.ac.ir/login > /dev/null'
+alias fum_hotspot_login_shahla='curl -d "password=&username=9412101168" -X POST https://hotspot.um.ac.ir/login > /dev/null'
 alias hhamid=fum_hotspot_login_hamid
 alias hshahla=fum_hotspot_login_shahla
 alias hlogout=fum_hotspot_logout
