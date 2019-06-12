@@ -16,7 +16,11 @@ git config --global core.fileMode true
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias push='git pull origin master && git push origin master'
 alias pull='git pull origin master'
-alias clone='git clone $1'
+#alias clone='git clone $1 ~/Git'
+function clone()
+{
+    git clone $1 $devLocations/Git
+}
 
 # Homebrew
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
@@ -38,7 +42,7 @@ export Metasploit=/opt/metasploit-framework/bin
 #export ANDROID_HOME=$ANDROID_SDK
 #export NDK_ROOT=$ANDROID_NDK
 
-# -------------------- Custom Scripts and bin --------------------
+# ------------------ Custom Scripts and Binaries ------------------
 # Download document from wenku.baidu.com
 export wkget=$appLocation/wkget/tools
 export PATH=$PATH:$wkget

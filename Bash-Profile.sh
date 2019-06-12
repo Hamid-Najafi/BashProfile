@@ -27,14 +27,11 @@ alias ls='ls -GFh'
 alias lsf='ls -laghFG'
 alias cd..='cd ..'
 alias cd~='cd ~'
-alias reload='source ~/.bash_profile'
-alias r=reload
-alias bash_profile='touch ~/.bash_profile && code ~/.bash_profile'
-alias bp=bash_profile
 alias serial_port='ls /dev/tty.*'
 alias sp=serial_port
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+alias copyPublicKey='pbcopy < $devLocations/Configs/RSA\ Keys/id_rsa.pub'
 
 # Commom Mac programsc
 alias xcode='open -a xcode'
@@ -54,6 +51,12 @@ bashConfig="/Users/"$(whoami)"/Dev/Configs/Bash"
 source $bashConfig/App-Profile.sh
 source $bashConfig/Personal-Profile.sh
 source $bashConfig/Useful-Functions.sh
+
+alias reload='source $bashConfig/Bash-Profile.sh'
+#;source $bashConfig/App-Profile.sh;source $bashConfig/Personal-Profile.sh;source $bashConfig/Useful-Functions.sh'
+alias r=reload
+alias bash_profile='code $bashConfig/Bash-Profile.sh'
+alias bp=bash_profile
 # -------------------------- Path ---------------------------
 # Binary Files Locations (Order is important)
 # Already exists in etc/path

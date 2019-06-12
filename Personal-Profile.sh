@@ -1,20 +1,17 @@
-
 # SSH Servers
 alias networkLabServer='ssh nls@network-lab-server.local'
 alias raspberryPi='ssh pi@raspberrypi.local'
 
 # Locations 
-appLocation="/Users/"$(whoami)"/Dev/Apps"
-configLocation="/Users/"$(whoami)"/Dev/Configs"
-projectsLocation="/Users/"$(whoami)"/Dev"
-brewListLocaion="$configLocation/Brew List/Brew List.command"
-bashprofileLocation="$configLocation/Bash/Bash Profile.txt"
-zshrcLocation="$configLocation/Bash/ZSHRC.txt"
-VSCodeExtentionsLocaion="$configLocation/VSCode Extentions/VSCode Extentions.command"
+devLocations="/Users/"$(whoami)"/Dev"
+appLocation=$devLocations/Apps
+brewListLocaion=$devLocations/Config/Brew\ List/Brew\ List.command
+VSCodeExtentionsLocaion=$devLocations/Config/VSCode\ Extentions/VSCode\ Extentions.command
 
 # Custom Directories
-alias software='cd $projectsLocation/Software'
-alias hardware='cd $projectsLocation/Hardware'
+alias dev='cd $devLocations/'
+alias software='cd $devLocations/Software'
+alias hardware='cd $devLocations/Hardware'
 alias msfmodule='cd /opt/metasploit-framework/embedded/framework/modules'
 
 # Ferdowsi Hotspot User
