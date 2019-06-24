@@ -12,7 +12,8 @@ export PS1="\[\e[38;5;110;48;233m\]\u \W $ \[\e[0m\]"
 # Default
 #export PS1=$DEFAULT
 
-PROMPT_COMMAND="echo"
+#Check why its not working
+#PROMPT_COMMAND="echo"
 
 check=$(type sudo)
 result="sudo is /usr/bin/sudo"
@@ -31,7 +32,6 @@ alias serial_port='ls /dev/tty.*'
 alias sp=serial_port
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-alias copyPublicKey='pbcopy < $devLocations/Configs/RSA\ Keys/id_rsa.pub'
 
 # Commom Mac programsc
 alias xcode='open -a xcode'

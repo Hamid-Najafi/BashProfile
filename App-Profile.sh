@@ -3,10 +3,19 @@
 # ===========================================================================
 
 # ------------------------ Applications ------------------------
+#ExportAll
+
+# RSA KEYs
+alias copyPublicKey='pbcopy < $devLocations/Configs/RSA\ Keys/id_rsa.pub'
+alias exportKnownHosts='cp ~/.ssh/known_hosts $configsLocaion/RSA\ Keys/'
+
+# ZSH
+alias exportBash='cp ~/.zshrc $configsLocaion/Bash/zshrc.sh && cp ~/.bash_profile $configsLocaion/Bash/bash_profile.sh'
+
 # Visual Studio Code
 export VSCode=/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 alias vscode='code'
-alias exportvscodeExtn='code --list-extensions | xargs -L 1 echo code --install-extension > "$VSCodeExtentionsLocaion" && echo Export Done'
+alias exportvscodeExtn='code --list-extensions | xargs -L 1 echo code --install-extension > $configsLocaion/VSCode\ Extentions/VSCode\ Extentions.command'
 
 # Git
 git config --global color.ui true
@@ -16,18 +25,15 @@ git config --global core.fileMode true
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias push='git pull origin master && git push origin master'
 alias pull='git pull origin master'
-#alias clone='git clone $1 ~/Git'
-function clone()
-{
-    git clone $1 $devLocations/Git
-}
+alias clone='cd $devLocations/Git && git clone $1 && cd $(ls -t |head -n 1)' # && cd $parent_path'
+alias exportGit='cp ~/.gitconfig  $configsLocaion/Git/gitconfig.txt'
 
 # Homebrew
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 alias installBrew='ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew doctor'
-alias exportBrewList='brew tap |  xargs -L 1 echo brew tap > "${brewListLocaion}"  && brew list | xargs -L 1 echo brew install >> "${brewListLocaion}"  && brew cask list | xargs -L 1 echo brew cask install >> "${brewListLocaion}"  && echo Export Done'
+alias exportBrewList='brew tap |  xargs -L 1 echo brew tap > $configsLocaion/Brew List/Brew List.command  && brew list | xargs -L 1 echo brew install >> $configsLocaion/Brew List/Brew List.command  && brew cask list | xargs -L 1 echo brew cask install >> $configsLocaion/Brew List/Brew List.command '
 
 # Metasploit
 export Metasploit=/opt/metasploit-framework/bin
@@ -80,10 +86,10 @@ export JRE_HOME=$JAVA_HOME
 #alias pg_stop="launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
 
 # MySQL
-export MYSQL_HOME=/usr/local/mysql
+#export MYSQL_HOME=/usr/local/mysql
 #export MYSQL_CLIENT=/usr/local/opt/mysql-client/bin
-alias start_mysql='sudo $MYSQL_HOME/bin/mysqld_safe &'
-alias stop_mysql='sudo $MYSQL_HOME/bin/mysqladmin shutdown'
+#alias start_mysql='sudo $MYSQL_HOME/bin/mysqld_safe &'
+#alias stop_mysql='sudo $MYSQL_HOME/bin/mysqladmin shutdown'
 
 # -------------------------- Path ---------------------------
 
@@ -230,3 +236,12 @@ alias mifare_clone='bash $configLocation/Mifare\ Clone.sh'
 
 # -------------------------- Path ---------------------------
 export PATH=$PATH:$esp32:$lx106:$IDF_PATH:$MDF_PATH:$IOT_SOLUTION_PATH
+
+function exportAll(){
+      exportBash  
+      exportGit 
+      exportKnownHosts  
+      exportBrewList  
+      exportvscodeExtn  
+      echo "Export Done"
+}

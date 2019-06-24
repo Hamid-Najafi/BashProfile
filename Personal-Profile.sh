@@ -1,12 +1,11 @@
 # SSH Servers
-alias networkLabServer='ssh nls@network-lab-server.local'
+alias networkLabServer='ssh nls@172.21.33.189'
 alias raspberryPi='ssh pi@raspberrypi.local'
 
 # Locations 
 devLocations="/Users/"$(whoami)"/Dev"
 appLocation=$devLocations/Apps
-brewListLocaion=$devLocations/Config/Brew\ List/Brew\ List.command
-VSCodeExtentionsLocaion=$devLocations/Config/VSCode\ Extentions/VSCode\ Extentions.command
+configsLocaion=$devLocations/Configs
 
 # Custom Directories
 alias dev='cd $devLocations/'
