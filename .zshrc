@@ -78,11 +78,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 alias zshrc='touch ~/.zshrc && code ~/.zshrc'
-source ~/.bash_profile
-bashConfig="/Users/"$(whoami)"/Dev/Configs/Bash"
-source $bashConfig/Bash-Profile.sh
+#source ~/.bash_profile
+source /Users/"$(whoami)"/Dev/Configs/Bash/Bash-Profile.sh
 # Redifine reload alias
-alias reload='source ~/.bash_profile; source ~/.zshrc'
+alias reload='source ~/.zshrc ; source $configsLocaion/Bash/Bash-Profile.sh' #source ~/.bash_profile;'
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

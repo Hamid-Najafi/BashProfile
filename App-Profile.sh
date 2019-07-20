@@ -17,6 +17,9 @@ export VSCode=/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 alias vscode='code'
 alias exportvscodeExtn='code --list-extensions | xargs -L 1 echo code --install-extension > $configsLocaion/VSCode\ Extentions/VSCode\ Extentions.command'
 
+#Docker
+alias dockerRunSQLServer='docker run -d --name sql_server_demo -e ''ACCEPT_EULA=Y'' -e ''SA_PASSWORD=SQLServer.24'' -p 1433:1433 microsoft/mssql-server-linux'
+
 # Git
 git config --global color.ui true
 git config --global format.pretty oneline
@@ -25,13 +28,14 @@ git config --global core.fileMode true
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias push='git pull origin master && git push origin master'
 alias pull='git pull origin master'
-alias clone='cd $devLocations/Git && git clone $1 && cd $(ls -t |head -n 1)' # && cd $parent_path'
+clone(){cd $devLocations/Git && git clone $1 && cd $(ls -t |head -n 1)# && cd $parent_path'} 
 alias exportGit='cp ~/.gitconfig  $configsLocaion/Git/gitconfig.txt'
 
 # Homebrew
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
+#  bash-completion - NOTE : ITS FOR BASH , NOT ZSH !
+#if [ -f $(brew --prefix)/etc/bash_completion ]; then
+#    . $(brew --prefix)/etc/bash_completion
+#fi
 alias installBrew='ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew doctor'
 alias exportBrewList='brew tap |  xargs -L 1 echo brew tap > $configsLocaion/Brew List/Brew List.command  && brew list | xargs -L 1 echo brew install >> $configsLocaion/Brew List/Brew List.command  && brew cask list | xargs -L 1 echo brew cask install >> $configsLocaion/Brew List/Brew List.command '
 
@@ -42,16 +46,18 @@ export Metasploit=/opt/metasploit-framework/bin
 #export Fastlane=$HOME/.fastlane/bin
 
 # Android
-#export ANDROID_SDK=/Users/"$(whoami)"/Library/Developer/Xamarin/android-sdk-macosx
+export ANDROID_SDK=/Users/"$(whoami)"/Library/Developer/Xamarin/android-sdk-macosx
 #export ANDROID_NDK=/Users/"$(whoami)"/Library/Developer/Xamarin/android-ndk
-#export ANDROID_ROOT=$ANDROID_SDK
-#export ANDROID_HOME=$ANDROID_SDK
+export ANDROID_ROOT=$ANDROID_SDK
+export ANDROID_HOME=$ANDROID_SDK
 #export NDK_ROOT=$ANDROID_NDK
 
 # ------------------ Custom Scripts and Binaries ------------------
 # Download document from wenku.baidu.com
+export dotnetSdkHelpers=$appLocation/dotnet-sdk-helpers
 export wkget=$appLocation/wkget/tools
 export PATH=$PATH:$wkget
+#:$dotnetSdkHelpers
 alias TashimBeNesbeh='cd "${appLocation}"/TashimBeNesbeh;./TashimBeNesbeh'
 
 # --------------------- Programming Languages ---------------------
@@ -94,7 +100,7 @@ export JRE_HOME=$JAVA_HOME
 # -------------------------- Path ---------------------------
 
 export PATH=$PATH:$VSCode:$Metasploit
-#export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$platformio
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 #export PATH=$PATH:$GOPATH:$GOROOT:$SWI_Prolog:$MYSQL_CLIENT
 
 
@@ -129,12 +135,17 @@ if [ $? -eq 0 ]
         name="${PWD##*/}"
         fullname="$name$extension"
         printf "\e[32mFlashing $fullname\e[m\n"
+        #stat=$
         st-write build/$fullname
+       # if [stat -eq 0] then 
+        printf "\e[32m%s\n" "Flash Done"
+       # printf "\e[32m%s\n" "Flash Error"
+
+
         #for foo in $(find . -type f -name "*.bin" )
         #    do
              #   st-write $foo
            # done
-        printf "\e[32m%s\n" "Flash Done"
     else
         printf "\e[31m%s\n" "Compile Error!" >&2
 fi
@@ -146,8 +157,9 @@ function st-erase(){
 # Espressif
 
 # ESP-IDF
-export esp32=$HOME/esp/xtensa-esp32-elf/1.22.0-80-g6c4433a-5.2.0/bin
-export IDF_PATH=~/esp/esp-idf 
+#export esp32=$HOME/esp/xtensa-esp32-elf/1.22.0-80-g6c4433a-5.2.0/bin
+export esp32=$HOME/esp/xtensa-esp32-elf/gcc8_2_0-esp32-2019r1/bin
+export IDF_PATH=~/esp/esp-idf/v3.2.2
 alias mm='make menuconfig'
 #alias get_esp32="export PATH=$HOME/esp/xtensa-esp32-elf/1.22.0-80-g6c4433a-5.2.0/bin:$PATH"
 
@@ -186,21 +198,13 @@ Port="/dev/tty.SLAB_USBtoUART"
 # fi
 # }
 
-function esp_init_arduino()
-{
-mkdir -p components && \
-cd components && \
-cp -r ~/esp/arduino-esp32 . && \
-cd .. && \
-make menuconfig
-}
 function esp_update()
 {
 # Toolchain Download Link
 # ESP32
 # https://docs.espressif.com/projects/esp-idf/en/latest/get-started/macos-setup.html
 # ESP8266
-# https://dl.espressif.com/dl/xtensa-lx106-elf-osx-1.22.0-92-g8facf4c-5.2.0.tar.gz
+# https://github.com/espressif/ESP8266_RTOS_SDK
 # IDF_PATH in 1.(project.mk Of esp-mdf) & 2.(Makefile Of esp-iot-solution) has been changed.
 currentDir=$PWD && \
 cd ~/esp && \
@@ -210,21 +214,32 @@ git pull origin master && \
 git submodule update --init --recursive && \
 cd .. && \
 cd esp-idf && \
+# git clone --recursive https://github.com/espressif/esp-idf.git
 printf "\e[32m%s\n"  "Updating ESP-IDF" && \
 git pull origin master && \
-git submodule update && \
+git submodule update --init --recursive && \
 printf "\e[32m%s\n" "Updating ESPTool" && \
 pip install esptool --upgrade && \
 cd .. && \
 cd esp-mdf && \
 printf "\e[32m%s\n" "Updating ESP-MDF" && \
 git pull origin master && \
-git submodule update && \
+git submodule update --init --recursive && \
 cd .. && \
 printf "\e[32m%s\n" "Updating ESP-IOT-solution" && \
 cd esp-iot-solution && \
 git pull origin master && \
-git submodule update && \
+git submodule update --init --recursive && \
+cd .. && \
+printf "\e[32m%s\n" "Updating ESP8266-RTOS" && \
+cd ESP8266_RTOS_SDK && \
+git pull origin master && \
+git submodule update --init --recursive && \
+cd .. && \
+printf "\e[32m%s\n" "Updating ESP8266-NONOS" && \
+cd ESP8266_NONOS_SDK && \
+git pull origin master && \
+git submodule update --init --recursive && \
 printf "\e[32m%s\n" "Done" && \
 cd $currentDir
 }
