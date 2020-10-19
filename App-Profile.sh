@@ -7,18 +7,15 @@
 
 # RSA KEYs
 alias copyPublicKey='pbcopy < $devLocations/Configs/RSA\ Keys/id_rsa.pub'
-alias exportKnownHosts='cp ~/.ssh/known_hosts $configsLocaion/RSA\ Keys/'
+alias exportKnownHosts='cp ~/.ssh/known_hosts $configsLocaion/RSA\ Keys/  && echo Export Knownhosts Done'
 
 # ZSH
-alias exportBash='cp ~/.zshrc $configsLocaion/Bash/zshrc.sh && cp ~/.bash_profile $configsLocaion/Bash/bash_profile.sh'
+alias exportBash='cp ~/.zshrc $configsLocaion/Bash/zshrc.sh && cp ~/.bash_profile $configsLocaion/Bash/bash_profile.sh && echo Export Bash Done'
 
 # Visual Studio Code
 export VSCode=/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 alias vscode='code'
-alias exportvscodeExtn='code --list-extensions | xargs -L 1 echo code --install-extension > $configsLocaion/VSCode\ Extentions/VSCode\ Extentions.command'
-
-#Docker
-alias dockerRunSQLServer='docker run -d --name sql_server_demo -e ''ACCEPT_EULA=Y'' -e ''SA_PASSWORD=SQLServer.24'' -p 1433:1433 microsoft/mssql-server-linux'
+alias exportvscodeExtn='code --list-extensions | xargs -L 1 echo code --install-extension > $configsLocaion/VSCode/VSCode\ Extentions.command  && echo Export VSCode Extn Done'
 
 # Git
 git config --global color.ui true
@@ -28,16 +25,37 @@ git config --global core.fileMode true
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias push='git pull origin master && git push origin master'
 alias pull='git pull origin master'
-clone(){cd $devLocations/Git && git clone $1 && cd $(ls -t |head -n 1)# && cd $parent_path'} 
-alias exportGit='cp ~/.gitconfig  $configsLocaion/Git/gitconfig.txt'
+function clone(){
+cd $devLocations/Git && git clone $1 && cd $(ls -t | head -n 1)
+}
+alias exportGit='cp ~/.gitconfig  $configsLocaion/Git/gitconfig.txt  && echo Export Git Done'
+
+
+# dotnetCore
+export DDOTNETTOOLS=$HOME/.dotnet/tools
 
 # Homebrew
 #  bash-completion - NOTE : ITS FOR BASH , NOT ZSH !
 #if [ -f $(brew --prefix)/etc/bash_completion ]; then
 #    . $(brew --prefix)/etc/bash_completion
 #fi
+export EDITOR=code
+export HOMEBREW_EDITOR=code
 alias installBrew='ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew doctor'
-alias exportBrewList='brew tap |  xargs -L 1 echo brew tap > $configsLocaion/Brew List/Brew List.command  && brew list | xargs -L 1 echo brew install >> $configsLocaion/Brew List/Brew List.command  && brew cask list | xargs -L 1 echo brew cask install >> $configsLocaion/Brew List/Brew List.command '
+alias exportBrewList='brew tap |  xargs -L 1 echo brew tap > $configsLocaion/Brew/Brew\ List.command  && brew list --formula | xargs -L 1 echo brew install >> $configsLocaion/Brew/Brew\ List.command  && brew list --cask | xargs -L 1 echo brew cask install >> $configsLocaion/Brew/Brew\ List.command && echo Export Brew List Done'
+
+# NPM (Node Package Manager)
+export PATH=~/.npm-global/bin:$PATH
+
+
+# NVM (Node Version Manager)
+# export NVM_DIR="$HOME/.nvm"
+# source $(brew --prefix nvm)/nvm.sh
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Minishift OC
+export PATH="/Users/hamid/.minishift/cache/oc/v3.11.0/darwin:$PATH"
 
 # Metasploit
 export Metasploit=/opt/metasploit-framework/bin
@@ -58,7 +76,7 @@ export dotnetSdkHelpers=$appLocation/dotnet-sdk-helpers
 export wkget=$appLocation/wkget/tools
 export PATH=$PATH:$wkget
 #:$dotnetSdkHelpers
-alias TashimBeNesbeh='cd "${appLocation}"/TashimBeNesbeh;./TashimBeNesbeh'
+alias TashimBeNesbeh='cd "/Users/hamid/Documents/Projects/Mahdi/TashimBeNesbeh-macOS";./TashimBeNesbeh'
 
 # --------------------- Programming Languages ---------------------
 
@@ -72,7 +90,7 @@ alias update_pip='sudo pip install -U $(pip freeze | cut -d '=' -f 1)'
 # OR use these:
 #export JAVA_HOME=$(/usr/libexec/java_home)
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 export JRE_HOME=$JAVA_HOME
 
 # Go
@@ -156,23 +174,32 @@ function st-erase(){
 
 # Espressif
 
+
 # ESP-IDF
-#export esp32=$HOME/esp/xtensa-esp32-elf/1.22.0-80-g6c4433a-5.2.0/bin
-export esp32=$HOME/esp/xtensa-esp32-elf/gcc8_2_0-esp32-2019r1/bin
-export IDF_PATH=~/esp/esp-idf/v3.2.2
-alias mm='make menuconfig'
+source $HOME/esp/esp-idf/export.sh > /dev/null
+# export esp32=$HOME/esp/xtensa-esp32-elf/1.22.0-100-ge567ec7-5.2.0/bin
+# export esp32=$HOME/esp/xtensa-esp32-elf/gcc8_2_0-esp32-2019r1/bin
 #alias get_esp32="export PATH=$HOME/esp/xtensa-esp32-elf/1.22.0-80-g6c4433a-5.2.0/bin:$PATH"
+# export esp32=$HOME/esp/xtensa-esp32-elf/1.22.0-80-g6c4433a-5.2.0/bin
+export IDF_PATH=~/esp/esp-idf/
+export esp32BuildEnvironment=~/esp/esp-idf/tools
+alias itarget='idf.py set-target esp32'
+alias imenu='idf.py menuconfig'
+alias ibuild='idf.py build'
+alias iflash='idf.py flash'
+alias imonitor='idf.py monitor'
 
 # ESP-MDF
-export MDF_PATH=~/esp/esp-mdf
+# export MDF_PATH=~/esp/esp-mdf
 
 # ESP-IOT
-export IOT_SOLUTION_PATH=~/esp/esp-iot-solution
+# export IOT_SOLUTION_PATH=~/esp/esp-iot-solution
 
 # ESP8266 RTOS
-export lx106=$HOME/esp/xtensa-lx106-elf/1.22.0-92-g8facf4c-5.2.0/bin
+# export lx106=$HOME/esp/xtensa-lx106-elf/1.22.0-92-g8facf4c-5.2.0/bin
+# alias get_lx106="export PATH=$HOME/esp/xtensa-lx106-elf/1.22.0-92-g8facf4c-5.2.0/bin:$PATH"
 #export IDF_PATH=~/esp/8266/ESP8266_RTOS_SDK
-#alias get_lx106="export PATH=$HOME/esp/xtensa-lx106-elf/1.22.0-92-g8facf4c-5.2.0/bin:$PATH"
+# source $HOME/esp/ESP8266_RTOS_SDK/add_path.sh
 
 # ESP8266 NONOS
 #export SDK_PATH=~/esp/8266/ESP8266_RTOS_SDK
@@ -181,8 +208,15 @@ export lx106=$HOME/esp/xtensa-lx106-elf/1.22.0-92-g8facf4c-5.2.0/bin
 function esp_write(){
 FirmwareFile="$@"
 Port="/dev/tty.SLAB_USBtoUART"
-[[ -z "$FirmwareFile" ]] && esptool.py -p $Port write_flash -fm qio 0x0000 firmware.bin  || esptool.py -p $Port write_flash -fm qio 0x0000 $FirmwareFile
+[[ -z "$FirmwareFile" ]] && esptool.py -p $Port write_flash -fm qio 0x0000 firmware.bin  || esptool.py -p $Port write_flash -fm dio 0x0000 $FirmwareFile -b 1500000
 }
+
+function esp_erase(){
+    Port="/dev/tty.SLAB_USBtoUART"
+esptool.py --port $Port erase_flash 
+# esptool.py erase_flash 
+}
+
 
 # function esp_run(){
 # if [ $? -eq 0 ];
@@ -250,7 +284,7 @@ alias mifare_read='bash $configLocation/Mifare\ Read.sh'
 alias mifare_clone='bash $configLocation/Mifare\ Clone.sh'
 
 # -------------------------- Path ---------------------------
-export PATH=$PATH:$esp32:$lx106:$IDF_PATH:$MDF_PATH:$IOT_SOLUTION_PATH
+export PATH=$PATH:$esp32:$esp32BuildEnvironment:$lx106:$IDF_PATH:$MDF_PATH:$IOT_SOLUTION_PATH:$DDOTNETTOOLS
 
 function exportAll(){
       exportBash  

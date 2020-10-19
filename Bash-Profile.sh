@@ -32,14 +32,17 @@ alias serial_port='ls /dev/tty.*'
 alias sp=serial_port
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+alias mountSystemFiles="sudo mount -uw /"
 
-# Commom Mac programsc
+# Commom Mac programs
 alias xcode='open -a xcode'
 alias text='open -a TextEdit'
 alias pre='open -a Preview'
 alias pwdfailed='syslog -k Time ge -24h | egrep -e "sshd|ftpd|afp|vnc"'
 alias restart_wifi='networksetup -setairportpower en0 off;networksetup -setairportpower en0 on'
 alias installCommandLineTools='xcode-select --install'
+alias ntfs-3g='sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.original && sudo ln -s /usr/local/sbin/mount_ntfs /sbin/mount_ntfs'
+#alias touchIDSudoSet
 
 # Grep
 alias grep='grep -n'
@@ -47,7 +50,7 @@ export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;35;40'
 
 # ------------------------ Load Configs -------------------------
-bashConfig="/Users/"$(whoami)"/Dev/Configs/Bash"
+bashConfig="/Users/"$(whoami)"/Development/Configs/Bash"
 source $bashConfig/App-Profile.sh
 source $bashConfig/Personal-Profile.sh
 source $bashConfig/Useful-Functions.sh

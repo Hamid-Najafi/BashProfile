@@ -2,8 +2,11 @@
 alias networkLabServer='ssh nls@172.21.33.189'
 alias raspberryPi='ssh pi@raspberrypi.local'
 
+# Wake On LAN (Over LAN !)
+alias homeServerWakeOn='wakeonlan -i goldenstarc.ir -p 1234 94:de:80:2f:ff:2b'
+
 # Locations 
-devLocations="/Users/"$(whoami)"/Dev"
+devLocations="/Users/"$(whoami)"/Development"
 appLocation=$devLocations/Apps
 configsLocaion=$devLocations/Configs
 
